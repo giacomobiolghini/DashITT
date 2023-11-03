@@ -144,9 +144,9 @@ with cl1:
     with st.expander("SupplierName", expanded=True):
         st.write(supplier_df.style.background_gradient(cmap="Blues"))
         csv = supplier_df.to_csv(index = True).encode('utf-8')
-        excel = to_excel(consultant_df)
-        st.download_button("Download Data CSV", data =csv, file_name= "Agent.csv", mime = "text/cvs", help = "Click here to dowmload the data as CSV file")
-        st.download_button("Download Data XLSX", data =excel, file_name= "Agent.xlsx",  help = "Click here to dowmload the data as XLSX file")
+        excel = to_excel(supplier_df)
+        st.download_button("Download Data CSV", data =csv, file_name= "Supplier.csv", mime = "text/cvs", help = "Click here to dowmload the data as CSV file")
+        st.download_button("Download Data XLSX", data =excel, file_name= "Supplier.xlsx",  help = "Click here to dowmload the data as XLSX file")
 
 
 location_df = filtered_df.groupby(by = ["Agent/Customer Country"], as_index = False)["Retail"].sum()
