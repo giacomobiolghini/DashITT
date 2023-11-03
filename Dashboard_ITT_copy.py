@@ -127,7 +127,7 @@ else:
 supplier_df = filtered_df.groupby(by = ["SupplierName"], as_index = False)["Retail"].sum()
 with col1:
     st.subheader("Revenue by Supplier")
-    fig = px.bar(consultant_df, x = "SupplierName", y = "Retail", text= ['${:,.2f}'.format(x) for x in supplier_df["Retail"]], template = "seaborn")
+    fig = px.bar(supplier_df, x = "SupplierName", y = "Retail", text= ['${:,.2f}'.format(x) for x in supplier_df["Retail"]], template = "seaborn")
     st.plotly_chart(fig, use_container_width = True, height = 200) 
 
 
