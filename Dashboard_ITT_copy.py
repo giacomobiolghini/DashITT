@@ -217,7 +217,7 @@ data2['layout'].update(title="Relationship between Revenue and Hotel nights",
 st.plotly_chart(data2, use_container_width=True)
 
 
-dat = pd.read_excel('MAPPAMONDO.XLSX')
+dat = pd.read_excel('MAPPAMONDO.xlsx')
 dat.columns = ['iso','retail']
 
 fig = px.choropleth(dat, locations="iso",
