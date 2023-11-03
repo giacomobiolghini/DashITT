@@ -57,11 +57,11 @@ st.sidebar.header("Choose your filter: ")
 
 
 #Filter by ConsultantName
-consultant = st.sidebar.multiselect("Pick Consultant", df["ConsultantName"].unique())
-if not consultant:
+supplier = st.sidebar.multiselect("Pick Supplier name", df["SupplierName"].unique())
+if not supplier:
     df2 = df.copy()
 else:
-    df2 = df[df["ConsultantName"].isin(consultant)]
+    df2 = df[df["SupplierName"].isin(supplier)]
 
 
 
@@ -89,45 +89,45 @@ status = st.sidebar.multiselect("Pick the status", df4["Status"].unique())
 #    df5 = df4[df4["Service"].isin(service)]
 
 #filter by intersection
-if not consultant and not location and not total and not status:
+if not supplier and not location and not total and not status:
     filtered_df = df
-elif not location and not total and not status and consultant:
-    filtered_df = df[df["ConsultantName"].isin(consultant)]
-elif not consultant and not total and not status and location:
+elif not location and not total and not status and supplier:
+    filtered_df = df[df["SupplierName"].isin(supplier)]
+elif not supplier and not total and not status and location:
     filtered_df = df[df["Agent/Customer Country"].isin(location)]
-elif not location and not consultant and not status and total:
+elif not location and not supplier and not status and total:
     filtered_df = df[df["Total"].isin(total)]
-elif not total and not location and not consultant and status:
+elif not total and not location and not supplier and status:
     filtered_df = df[df["Status"].isin(status)]
-elif location and total and consultant and not status:
-    filtered_df = df3[df3["Total"].isin(total)& df3["Agent/Customer Country"].isin(location) & df3["ConsultantName"].isin(consultant)]
-elif location and consultant and status and not total:
-    filtered_df = df3[df3["Agent/Customer Country"].isin(location) & df3["ConsultantName"].isin(consultant) & df3["Status"].isin(status)]
-elif location and total and status and not consultant:
+elif location and total and supplier and not status:
+    filtered_df = df3[df3["Total"].isin(total)& df3["Agent/Customer Country"].isin(location) & df3["SupplierName"].isin(supplier)]
+elif location and supplier and status and not total:
+    filtered_df = df3[df3["Agent/Customer Country"].isin(location) & df3["SupplierName"].isin(supplier) & df3["Status"].isin(status)]
+elif location and total and status and not supplier:
     filtered_df = df3[df3["Agent/Customer Country"].isin(location) & df3["Total"].isin(total) & df3["Status"].isin(status)]
-elif consultant and total and status and not location:
-    filtered_df = df3[df3["Status"].isin(status) & df3["ConsultantName"].isin(consultant) & df3["Total"].isin(total)]
-elif location and total and not status and not consultant:
+elif supplier and total and status and not location:
+    filtered_df = df3[df3["Status"].isin(status) & df3["SupplierName"].isin(supplier) & df3["Total"].isin(total)]
+elif location and total and not status and not supplier:
     filtered_df = df2[df2["Agent/Customer Country"].isin(location) & df2["Total"].isin(total)]
-elif location and status and not total and not consultant:
+elif location and status and not total and not supplier:
     filtered_df = df2[df2["Agent/Customer Country"].isin(location) & df2["Status"].isin(status)]
-elif location and consultant and not status and not total:
-    filtered_df = df2[df2["Agent/Customer Country"].isin(location) & df2["ConsultantName"].isin(consultant)]
-elif consultant and status and not location and not total:
-    filtered_df = df2[df2["ConsultantName"].isin(consultant) & df2["Status"].isin(status)]
-elif consultant and total and not status and not consultant:
-    filtered_df = df2[df2["ConsultantName"].isin(location) & df2["Total"].isin(total)]
-elif total and status and not location and not consultant:
+elif location and supplier and not status and not total:
+    filtered_df = df2[df2["Agent/Customer Country"].isin(location) & df2["SupplierName"].isin(supplier)]
+elif supplier and status and not location and not total:
+    filtered_df = df2[df2["SupplierName"].isin(supplier) & df2["Status"].isin(status)]
+elif supplier and total and not status and not consultant:
+    filtered_df = df2[df2["SupplierName"].isin(supplier) & df2["Total"].isin(total)]
+elif total and status and not location and not supplier:
     filtered_df = df2[df2["Status"].isin(status) & df2["Total"].isin(total)]
 else:
     filtered_df= df4[df4["ConsultantName"].isin(consultant) & df4["Agent/Customer Country"].isin(location) & df4["Total"].isin(total)& df4["Status"].isin(status)]
 
 
 
-consultant_df = filtered_df.groupby(by = ["ConsultantName"], as_index = False)["Retail"].sum()
+supplier_df = filtered_df.groupby(by = ["SupplierName"], as_index = False)["Retail"].sum()
 with col1:
-    st.subheader("Revenue by Consultant")
-    fig = px.bar(consultant_df, x = "ConsultantName", y = "Retail", text= ['${:,.2f}'.format(x) for x in consultant_df["Retail"]], template = "seaborn")
+    st.subheader("Revenue by Supplier")
+    fig = px.bar(consultant_df, x = "SupplierName", y = "Retail", text= ['${:,.2f}'.format(x) for x in supplier_df["Retail"]], template = "seaborn")
     st.plotly_chart(fig, use_container_width = True, height = 200) 
 
 
@@ -141,9 +141,9 @@ with col2:
 
 cl1, cl2 = st.columns((2))
 with cl1:
-    with st.expander("ConsultantName", expanded=True):
-        st.write(consultant_df.style.background_gradient(cmap="Blues"))
-        csv = consultant_df.to_csv(index = True).encode('utf-8')
+    with st.expander("SupplierName", expanded=True):
+        st.write(supplier_df.style.background_gradient(cmap="Blues"))
+        csv = supplier_df.to_csv(index = True).encode('utf-8')
         excel = to_excel(consultant_df)
         st.download_button("Download Data CSV", data =csv, file_name= "Agent.csv", mime = "text/cvs", help = "Click here to dowmload the data as CSV file")
         st.download_button("Download Data XLSX", data =excel, file_name= "Agent.xlsx",  help = "Click here to dowmload the data as XLSX file")
