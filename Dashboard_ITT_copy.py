@@ -115,12 +115,12 @@ elif location and supplier and not status and not total:
     filtered_df = df2[df2["Agent/Customer Country"].isin(location) & df2["SupplierName"].isin(supplier)]
 elif supplier and status and not location and not total:
     filtered_df = df2[df2["SupplierName"].isin(supplier) & df2["Status"].isin(status)]
-elif supplier and total and not status and not consultant:
+elif supplier and total and not status and not location:
     filtered_df = df2[df2["SupplierName"].isin(supplier) & df2["Total"].isin(total)]
 elif total and status and not location and not supplier:
     filtered_df = df2[df2["Status"].isin(status) & df2["Total"].isin(total)]
 else:
-    filtered_df= df4[df4["ConsultantName"].isin(consultant) & df4["Agent/Customer Country"].isin(location) & df4["Total"].isin(total)& df4["Status"].isin(status)]
+    filtered_df= df4[df4["SupplierName"].isin(supplier) & df4["Agent/Customer Country"].isin(location) & df4["Total"].isin(total)& df4["Status"].isin(status)]
 
 
 
