@@ -25,7 +25,12 @@ def to_excel(df):
     processed_data = output.getvalue()
     return processed_data
 
-df=pd.read_excel('ITT_PROVA.xlsx')
+@st.cache_resource
+def load_data():
+    model=pd.read_excel('ITT_PROVA.xlsx')
+    return model
+
+df = load_data()
 
 col1, col2 = st.columns((2))
 
@@ -217,12 +222,3 @@ data2['layout'].update(title="Relationship between Revenue and Hotel nights",
 st.plotly_chart(data2, use_container_width=True)
 
 
-dat = pd.read_excel('MAPPAMONDO.xlsx')
-dat.columns = ['iso','retail']
-
-fig = px.choropleth(dat, locations="iso",
-                    color="retail",
-                    hover_name="iso", 
-                    color_continuous_scale=px.colors.sequential.Darkmint)
-st.plotly_chart(fig, use_container_width = True, height = 200) 
-#subprocess.Popen(["activate2.bat"])
