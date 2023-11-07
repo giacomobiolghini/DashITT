@@ -11,7 +11,7 @@ import openpyxl as op
 import plotly.figure_factory as ff
 
 st.set_page_config(page_title="Exponento", layout="wide")
-st.title("BUSINESS INTELLIGENCE")
+st.title("BUSINESS INTELLIGENCEeee")
 
 def to_excel(df):
     output = BytesIO()
