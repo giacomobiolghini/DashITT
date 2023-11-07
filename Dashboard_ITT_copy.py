@@ -136,14 +136,12 @@ with col1:
     st.plotly_chart(fig, use_container_width = True, height = 200) 
 
 
+supplier_df2 = filtered_df.groupby(by = ["SupplierName"], as_index = False)["Total"].sum()
 with col2:
-    st.subheader("Revenue by Customer Country")
-    fig = px.pie(filtered_df, values = "Retail", names = "Agent/Customer Country", hole = 0.5)
-    fig.update_traces(text = filtered_df["Agent/Customer Country"], textposition = "outside")
-    st.plotly_chart(fig, use_container_width = True)
-
-
-
+    st.subheader("Total nights by Supplier")
+    fig = px.bar(filtered_df, x = "SupplierName", y = "Total", template = "seaborn")
+    st.plotly_chart(fig, use_container_width = True, height = 200) 
+   
 cl1, cl2 = st.columns((2))
 with cl1:
     with st.expander("SupplierName", expanded=True):
@@ -153,15 +151,27 @@ with cl1:
         st.download_button("Download Data CSV", data =csv, file_name= "Supplier.csv", mime = "text/cvs", help = "Click here to dowmload the data as CSV file")
         st.download_button("Download Data XLSX", data =excel, file_name= "Supplier.xlsx",  help = "Click here to dowmload the data as XLSX file")
 
+with cl2:
+    with st.expander("Nights by supplier data", expanded=True):
+        st.write(supplier_df2.style.background_gradient(cmap="Blues"))
+        csv = supplier_df2.to_csv(index = True).encode('utf-8')
+        excel = to_excel(supplier_df2)
+        st.download_button("Download Data CSV", data =csv, file_name= "Supplier_nights.csv", mime = "text/cvs", help = "Click here to dowmload the data as CSV file")
+        st.download_button("Download Data XLSX", data =excel, file_name= "Supplier_nights.xlsx",  help = "Click here to dowmload the data as XLSX file")
+
+st.subheader("Revenue by Customer Country")
+fig = px.pie(filtered_df, values = "Retail", names = "Agent/Customer Country", hole = 0.5)
+fig.update_traces(text = filtered_df["Agent/Customer Country"], textposition = "outside")
+st.plotly_chart(fig, use_container_width = True)
 
 location_df = filtered_df.groupby(by = ["Agent/Customer Country"], as_index = False)["Retail"].sum()
-with cl2:
-        with st.expander("Location data", expanded=True):
-            st.write(location_df.style.background_gradient(cmap="Blues"))
-            csv = location_df.to_csv(index = True).encode('utf-8')
-            excel = to_excel(location_df)
-            st.download_button("Download Data CSV", data =csv, file_name= "Location.csv", mime = "text/cvs", help = "Click here to dowmload the data as CSV file")
-            st.download_button("Download Data XLSX", data =excel, file_name= "Location.xlsx",  help = "Click here to dowmload the data as XLSX file")
+with st.expander("Location data", expanded=True):
+    st.write(location_df.style.background_gradient(cmap="Blues"))
+    csv = location_df.to_csv(index = True).encode('utf-8')
+    excel = to_excel(location_df)
+    st.download_button("Download Data CSV", data =csv, file_name= "Location.csv", mime = "text/cvs", help = "Click here to dowmload the data as CSV file")
+    st.download_button("Download Data XLSX", data =excel, file_name= "Location.xlsx",  help = "Click here to dowmload the data as XLSX file")
+
 
 #NIGHTS GRAPH
 totalnights_df = filtered_df.groupby(by = ["Total"], as_index = False)["Retail"].sum()
