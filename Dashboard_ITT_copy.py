@@ -205,7 +205,7 @@ st.subheader(":point_right : Month wise Consultant revenues summary")
 with st.expander("Summary_Table", expanded=True):
     st.markdown("Month wise sub-Category Table")
     filtered_df["month"]=filtered_df["Date"].dt.month_name()
-    customer_type_year = pd.pivot_table(data = filtered_df, values ="Retail", index = ["ConsultantName"], columns = "month")
+    customer_type_year = pd.pivot_table(data = filtered_df, values ="Retail", index = ["ConsultantName"], columns = "month", fill_value=0)
     st.write(customer_type_year.style.background_gradient(cmap="Blues"))
 
 #SCATTER PLOT
